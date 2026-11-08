@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang = "es">
+    <head>
+        <title>StockFlow - Inicio</title>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Gestor de inventario para empresas.">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+            <h3>StockFlow <small>- Gestor de Inventario </small></h3>
+            <nav>
+                <a href="">Inventario de Productos</a>
+                <a href="">Añadir / Retirar Stock</a>
+            </nav>
+        </header>
+
+        <main>
+            
+            <h2>Control de Inventario</h2>
+            <p>Listado general de existencias y operaciones directas de almacén.</p>
+            <section>
+                <article>
+                    <h5>TOTAL PRODUCTOS</h5>
+                    <p><strong id="kpi-total">0</strong><small>artículos</small></p>
+                </article>
+                <article>
+                    <h5>UNIDADES TOTALES</h5>
+                    <p><strong id="kpi-unidades">0</strong><small>uds</small></p>
+                </article>
+                <article>
+                    <h5>VALOR TOTAL INVENTARIO</h5>
+                    <p><strong id="kpi-valor">0.0€</strong></p>
+                </article>
+            </section>
+            <section>
+                <h4>Lista de Productos Registrados</h4>
+                <table border="1">
+                    <thead>
+                        <th>ID</th>
+                        <th>NOMBRE DEL PRODUCTO</th>
+                        <th>CANTIDAD (STOCK)</th>
+                        <th>PRECIO (€)</th>
+                        <th>ACCIONES</th>
+                    </thead>
+                    <tbody id="cuerpo-tabla">
+
+                    </tbody>
+                </table>
+            </section>
+            <section>
+                <article>
+                    <h4>Añadir Nuevo Producto</h4>
+                    <p>Formulario estándar para registrar un nuevo artículo en la base de datos.</p>
+                    <form id="formulario-crear">
+                        <div>
+                            <label for="nombreProducto">Nombre del Producto</label>
+                            <input type="text" id="nombreProducto" placeholder="Ej: Bomba de Agua 12V">
+                        </div>
+                        <br>
+
+                        <div>
+                            <label for="cantidadInicial">Cantidad Inicial</label>
+                            <input type="number" id="cantidadInicial" placeholder="0" min="0">
+                        </div>
+
+                        <br>
+
+                        <div>
+                            <label for="precioProducto">Precio (€)</label>
+                            <input type="number" id="precioProducto" placeholder="0.00" step="0.01" min="0">
+                        </div>
+                        <br>
+
+                        <button type="button">Guardar Producto</button>
+                    </form>
+                </article>
+                <article>
+                    <h4>Modificar Stock (Entrada / Salida)</h4>
+                    <p>Actualiza rápidamente las unidades de un producto existente.</p>
+
+                    <form id="formulario-modificar">
+                        <div>
+                            <label for="selectorProducto">Seleccionar Producto</label>
+                            <select id="selectorProducto">
+                                <option>PRD-001 - Tornillo Hexagonal M8 (650 uds)</option>
+                            </select>
+                        </div>
+                        <br>
+
+                        <div>
+                            <label>Tipo de Movimiento</label><br>
+                            <!-- El atributo 'name' vincula ambos botones de opción -->
+                            <input type="radio" id="movEntrada" name="tipoMovimiento" value="entrada" checked>
+                            <label for="movEntrada">Entrada (+)</label>
+                            
+                            <input type="radio" id="movSalida" name="tipoMovimiento" value="salida">
+                            <label for="movSalida">Salida (-)</label>
+                        </div>
+                        <br>
+
+                        <div>
+                            <label for="cantidadUnidades">Cantidad de unidades</label>
+                            <input type="number" id="cantidadUnidades" placeholder="Ej: 25" min="1">
+                        </div>
+                        <br>
+
+                        <button type="button">Actualizar Stock</button>
+                    </form>
+                </article>
+            </section>
+
+            
+        </main>
+
+        <footer>
+            <hr>
+    <p><small>&copy; 2026 StockFlow - Panel de Gestión de Inventario.</small></p>
+    <p><small>Desarrollado como proyecto de arquitectura de software.</small></p>
+        </footer>
+        <script src="script.js"></script>
+    </body>
+</html>

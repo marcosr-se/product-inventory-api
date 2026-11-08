@@ -1,0 +1,236 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* =========================================
+   1. VARIABLES Y RESETEO BASE
+   ========================================= */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-color: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 2rem 4rem; /* Márgenes laterales para centrar el contenido */
+}
+
+/* =========================================
+   2. CABECERA (HEADER)
+   ========================================= */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+header small {
+    color: var(--text-muted);
+    font-weight: normal;
+}
+
+header nav a {
+    margin-left: 1.5rem;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+header nav a:hover {
+    color: var(--primary-color);
+}
+
+/* =========================================
+   3. ESTRUCTURA PRINCIPAL (MAIN)
+   ========================================= */
+main > h2 {
+    margin-bottom: 0.2rem;
+}
+
+main > p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* --- TARJETAS KPI (Primera Section) --- */
+main > section:nth-of-type(1) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+main > section:nth-of-type(1) article {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+main > section:nth-of-type(1) h5 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+main > section:nth-of-type(1) p {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+main > section:nth-of-type(1) small {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: normal;
+}
+
+/* --- TABLA (Segunda Section) --- */
+main > section:nth-of-type(2) {
+    margin-bottom: 3rem;
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+main > section:nth-of-type(2) h4 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead th {
+    background-color: #f1f5f9;
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border-color);
+}
+
+tbody td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+/* --- FORMULARIOS (Tercera Section) --- */
+main > section:nth-of-type(3) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+main > section:nth-of-type(3) article {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+main > section:nth-of-type(3) h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+main > section:nth-of-type(3) p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* =========================================
+   4. ELEMENTOS DE FORMULARIO
+   ========================================= */
+form div {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block; /* Fuerza a que el label esté encima del input */
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Excepción: Para los radio buttons, el label va al lado */
+input[type="radio"] + label {
+    display: inline-block;
+    margin-right: 1.5rem;
+    font-weight: normal;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box; /* Evita que el padding rompa el tamaño */
+    font-family: inherit;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* =========================================
+   5. PIE DE PÁGINA (FOOTER)
+   ========================================= */
+footer {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 3rem;
+}
+
+footer hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
