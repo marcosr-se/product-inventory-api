@@ -1,6 +1,5 @@
 let inventarioGlobal = [];
 
-
 // Función principal para leer datos del Backend (GET)
 async function cargarInventario() {
     try {
@@ -9,11 +8,11 @@ async function cargarInventario() {
 
         // Referencias al HTML
         const cuerpoTabla = document.getElementById('cuerpo-tabla');
-        const selectorProducto = document.getElementById('selectorProducto'); // <-- NUEVO: Capturamos el selector
+        const selectorProducto = document.getElementById('selectorProducto');
 
         // Limpiar la tabla y el selector antes de pintar
         cuerpoTabla.innerHTML = ''; 
-        selectorProducto.innerHTML = '<option value="">-- Elige un producto --</option>'; // <-- NUEVO: Opción por defecto vacía
+        selectorProducto.innerHTML = '<option value="">-- Elige un producto --</option>';
 
         let totalUnidades = 0;
         let valorTotal = 0.0;
@@ -35,16 +34,15 @@ async function cargarInventario() {
             `;
             cuerpoTabla.appendChild(fila);
 
-            // 3. NUEVO: Pintar la opción en el selector desplegable
+            // 3. Añadir la opción al selector desplegable
             const opcion = document.createElement('option');
-            opcion.value = producto.id; // El valor oculto que usaremos luego para Java
-            opcion.textContent = `${producto.id} - ${producto.nombre} (${producto.stock} uds)`; // Lo que ve el usuario
+            opcion.value = producto.id;
+            opcion.textContent = `${producto.id} - ${producto.nombre} (${producto.stock} uds)`;
             selectorProducto.appendChild(opcion);
         });
 
-        // Inyectar los totales en las tarjetas superiores
-
-        document.getElementById('kpi-total').innerText = inventarioGlobal.length; // <-- AQUÍ ESTABA EL FALLO
+        // Mostrar los totales en las tarjetas superiores
+        document.getElementById('kpi-total').innerText = inventarioGlobal.length;
         document.getElementById('kpi-unidades').innerText = totalUnidades;
         document.getElementById('kpi-valor').innerText = valorTotal.toFixed(2) + ' €';
 
@@ -53,7 +51,7 @@ async function cargarInventario() {
     }
 }
 
-// 5. Encender el motor automáticamente cuando la página termine de cargar
+// Cargar el inventario al abrir la página
 document.addEventListener('DOMContentLoaded', cargarInventario);
 
 // Función para enviar un producto nuevo al Backend (POST)
@@ -69,7 +67,7 @@ async function guardarProductoNuevo() {
         return;
     }
 
-    // 3. Construir el objeto JSON que espera tu clase Producto en Java
+    // 3. Construir el JSON que espera la clase Producto en Java
     const productoJSON = {
         nombre: nombre,
         stock: parseInt(stock),
@@ -89,7 +87,7 @@ async function guardarProductoNuevo() {
         if (respuesta.ok) {
             // Si el servidor responde un OK (200), vaciamos el formulario
             document.getElementById('formulario-crear').reset();
-            // Y volveamos a pedir el catálogo para que la tabla se actualice sola
+            // y volvemos a pedir el catálogo para que la tabla se actualice
             cargarInventario();
         } else {
             console.error("El servidor rechazó el producto.");
@@ -100,8 +98,7 @@ async function guardarProductoNuevo() {
     }
 }
 
-// 5. Enganchar la función al botón del formulario
-// Buscamos el botón dentro del formulario-crear y le añadimos un "escuchador" de clics
+// Conectar la función al botón de crear producto
 document.querySelector('#formulario-crear button').addEventListener('click', guardarProductoNuevo);
 
 async function actualizarStockProducto() {
@@ -117,26 +114,26 @@ async function actualizarStockProducto() {
         return;
     }
 
-    // 3. Validación Inteligente de Negocio (Tu idea implementada)
+    // 3. Comprobar en el cliente que hay stock suficiente antes de una salida
     if (tipoMovimiento === 'salida') {
         // Buscamos el producto en nuestra variable global
         const producto = inventarioGlobal.find(p => p.id == idSeleccionado);
         
         if (producto && cantidad > producto.stock) {
             alert(`Operación denegada: Solo hay ${producto.stock} unidades. No puedes retirar ${cantidad}.`);
-            return; // Abortamos la ejecución, el servidor ni se entera
+            return;
         }
     }
 
     try {
-        // 4. Llamada de red al nuevo endpoint PUT de Java
+        // 4. Llamada al endpoint PUT de stock
         const respuesta = await fetch(`/api/productos/${idSeleccionado}/stock?cantidad=${cantidad}&operacion=${tipoMovimiento}`, {
             method: 'PUT'
         });
 
         if (respuesta.ok) {
             document.getElementById('formulario-modificar').reset();
-            cargarInventario(); // Refrescar la tabla al instante
+            cargarInventario();
         } else {
             console.error("El servidor rechazó la operación de stock.");
         }
@@ -145,25 +142,23 @@ async function actualizarStockProducto() {
     }
 }
 
-// 5. Conectar la función al botón de Modificar Stock
+// Conectar la función al botón de modificar stock
 document.querySelector('#formulario-modificar button').addEventListener('click', actualizarStockProducto);
 
 // Función para borrar un producto definitivamente (DELETE)
-// Función para borrar un producto definitivamente (DELETE)
 async function borrarProducto(id) {
-    // Barrera de seguridad para evitar clics accidentales
-    if (!confirm("¿Alerta de sistema: Seguro que quieres eliminar este producto del catálogo?")) {
+    // Pedir confirmación para evitar borrados accidentales
+    if (!confirm("¿Seguro que quieres eliminar este producto del catálogo?")) {
         return;
     }
 
     try {
-        // ATENCIÓN AQUÍ: La ruta usa acentos graves (`), no comillas
         const respuesta = await fetch(`/api/productos/${id}`, {
             method: 'DELETE'
         });
 
         if (respuesta.ok) {
-            cargarInventario(); // Si Java confirma el borrado, refrescamos la tabla
+            cargarInventario();
         } else {
             console.error("El servidor ha rechazado la eliminación.");
         }
